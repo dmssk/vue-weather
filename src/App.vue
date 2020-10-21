@@ -1,26 +1,50 @@
 <template>
-  <div id="app">
+	<v-app>
+		<v-card
+						color="grey lighten-4"
+						flat
+						tile
+		>
+			<v-toolbar dense>
+				<v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-    <header>
-      header
-    </header>
-  </div>
+				<v-toolbar-title>Title</v-toolbar-title>
+
+				<v-spacer></v-spacer>
+
+				<v-btn icon>
+					<v-icon>mdi-magnify</v-icon>
+				</v-btn>
+
+				<v-btn icon>
+					<v-icon>mdi-heart</v-icon>
+				</v-btn>
+
+				<v-btn icon>
+					<v-icon>mdi-dots-vertical</v-icon>
+				</v-btn>
+			</v-toolbar>
+		</v-card>
+
+		<v-main class="mt-5 px-5">
+      <v-weather-card/>
+		</v-main>
+	</v-app>
 </template>
 
 <script>
 
-export default {
-  name: 'App',
-  components: {
+  import VWeatherCard from "./components/VWeatherCard";
 
-  }
-}
+  export default {
+    name: 'App',
+
+    components: {
+      VWeatherCard
+    },
+
+    data: () => ({
+      //
+    }),
+  };
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-</style>
