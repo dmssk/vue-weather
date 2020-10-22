@@ -1,50 +1,60 @@
 <template>
-	<v-app>
-		<v-card
-						color="grey lighten-4"
-						flat
-						tile
-		>
-			<v-toolbar dense>
-				<v-app-bar-nav-icon></v-app-bar-nav-icon>
+    <v-app>
+        <v-card
+                color="grey lighten-4"
+                flat
+                tile
+        >
+            <v-toolbar dense>
 
-				<v-toolbar-title>Title</v-toolbar-title>
+                <v-toolbar-title>Weather App</v-toolbar-title>
 
-				<v-spacer></v-spacer>
+                <v-spacer></v-spacer>
 
-				<v-btn icon>
-					<v-icon>mdi-magnify</v-icon>
-				</v-btn>
 
-				<v-btn icon>
-					<v-icon>mdi-heart</v-icon>
-				</v-btn>
+                <a href="https://github.com/dmssk" target="_blank" title="dev">
+                    <v-btn icon>
+                        <v-icon>mdi-github</v-icon>
+                    </v-btn>
+                </a>
 
-				<v-btn icon>
-					<v-icon>mdi-dots-vertical</v-icon>
-				</v-btn>
-			</v-toolbar>
-		</v-card>
+            </v-toolbar>
+        </v-card>
+        <v-tabs class="mt-5 px-5">
+            <v-tab v-for="route in getRoutes" :key="route.id">
+                <router-link :to="route.path">{{route.name}}</router-link>
+            </v-tab>
+        </v-tabs>
 
-		<v-main class="mt-5 px-5">
-      <v-weather-card/>
-		</v-main>
-	</v-app>
+        <v-main class="mt-5 pa-5">
+
+
+            <router-view/>
+
+
+        </v-main>
+    </v-app>
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
 
-  import VWeatherCard from "./components/VWeatherCard";
-
-  export default {
-    name: 'App',
-
-    components: {
-      VWeatherCard
-    },
-
-    data: () => ({
-      //
-    }),
-  };
+    export default {
+        name: 'App',
+        data() {
+            return {}
+        },
+        computed: mapGetters(['getRoutes'])
+    };
 </script>
+
+<style lang="scss">
+    a {
+        text-decoration: none;
+    }
+
+    .v-main {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+</style>

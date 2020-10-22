@@ -2,7 +2,6 @@
 	<div>
 		<v-card
 						class="mx-auto"
-						max-width="600"
 		>
 			<v-list-item two-line>
 				<v-list-item-content>
@@ -26,7 +25,6 @@
 					<v-col cols="6">
 						<v-img
 										:src="`http://openweathermap.org/img/wn/${today.weather[0].icon}@2x.png`"
-										alt="Sunny image"
 										width="100"
 						></v-img>
 					</v-col>
