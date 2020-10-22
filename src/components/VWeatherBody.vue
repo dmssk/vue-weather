@@ -1,42 +1,53 @@
 <template>
     <div>
-        {{ $route.params.city }}
-        <v-form class="mt-5" @submit.prevent="searchCity">
+        <v-form class="mt-5" @submit.prevent="searchCity" ref="form">
             <v-text-field
                     v-model="city"
                     label="Find your sity"
                     solo
+                    :rules="rules"
+                    required
             ></v-text-field>
         </v-form>
+        <v-btn block v-if="city" @click="pinCity">
+            pin city
+        </v-btn>
         <v-weather-card/>
     </div>
 </template>
 
 <script>
     import VWeatherCard from "./../components/VWeatherCard";
-
     export default {
         name: "VWeatherBody",
         data() {
             return {
-                city: ''
+                valid: false,
+                city: '',
+                rules: [
+                    v => !!v || 'City is required',
+                ]
             }
         },
         components: {
             VWeatherCard
         },
         methods: {
+            validate () {
+                this.$refs.form.validate()
+            },
             searchCity() {
+                this.validate();
+                if(this.city) {
+                    this.$store.dispatch('fetchCity', this.city);
+                }
+            },
+            pinCity() {
                 this.$store.commit('addRoute', {
                     route: this.city
                 });
                 this.$router.addRoutes([{name: this.city, path: '/' + this.city}])
-                console.log(this.$router)
             }
         }
     }
 </script>
-
-<style scoped>
-
-</style>

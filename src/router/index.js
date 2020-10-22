@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Index from '../components/VWeatherBody.vue'
+import Card from '../components/VWeatherCard.vue'
 
 Vue.use(VueRouter)
 
@@ -11,7 +12,7 @@ const routes = [
   },
   {
     path: '/:city',
-    component: Index
+    component: Card
   }
 ]
 

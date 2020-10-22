@@ -1,4 +1,4 @@
-export const forecast = {
+export const fakeForecast = {
   "cod": "200",
   "message": 0,
   "cnt": 40,
