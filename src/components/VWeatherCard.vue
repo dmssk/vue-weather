@@ -34,17 +34,27 @@
 			</v-card-text>
 
 			<v-list-item>
-				<v-list-item-icon>
-					<v-icon>mdi-send</v-icon>
-				</v-list-item-icon>
-				<v-list-item-subtitle>23 km/h</v-list-item-subtitle>
+					<v-list-item-icon>
+						<v-icon
+										:title="today.wind.deg + ' degree'"
+										:style="`transform: rotate(${today.wind.deg}deg)`"
+						>mdi-send</v-icon>
+					</v-list-item-icon>
+
+				<v-list-item-subtitle>{{today.wind.speed}} km/h</v-list-item-subtitle>
 			</v-list-item>
 
 			<v-list-item>
 				<v-list-item-icon>
 					<v-icon>mdi-cloud-download</v-icon>
 				</v-list-item-icon>
-				<v-list-item-subtitle>48%</v-list-item-subtitle>
+				<v-list-item-subtitle>{{today.main.humidity}}%</v-list-item-subtitle>
+			</v-list-item>
+			<v-list-item>
+				<v-list-item-icon>
+					<v-icon>mdi-cloud</v-icon>
+				</v-list-item-icon>
+				<v-list-item-subtitle>{{today.clouds.all}}%</v-list-item-subtitle>
 			</v-list-item>
 
 			<v-list class="transparent">
