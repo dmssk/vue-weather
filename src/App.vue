@@ -20,44 +20,31 @@
 
             </v-toolbar>
         </v-card>
+        <v-tabs class="mt-5 px-5">
+            <v-tab v-for="route in getRoutes" :key="route.id">
+                <router-link :to="route.path">{{route.name}}</router-link>
+            </v-tab>
+        </v-tabs>
 
         <v-main class="mt-5 pa-5">
-            <v-tabs>
-                <v-tab>Item One</v-tab>
-                <v-tab>Item Two</v-tab>
-                <v-tab>Item Three</v-tab>
-            </v-tabs>
-            <v-form class="mt-5" @submit.prevent="searchCity">
-                <v-text-field
-                        v-model="city"
-                        label="Find your sity"
-                        solo
-                ></v-text-field>
-            </v-form>
-            <v-weather-card/>
+
+
+            <router-view/>
+
+
         </v-main>
     </v-app>
 </template>
 
 <script>
-
-    import VWeatherCard from "./components/VWeatherCard";
+    import {mapGetters} from 'vuex'
 
     export default {
         name: 'App',
-
-        components: {
-            VWeatherCard
+        data() {
+            return {}
         },
-
-        data: () => ({
-            city: ''
-        }),
-        methods: {
-            searchCity() {
-                console.log(this.city)
-            }
-        }
+        computed: mapGetters(['getRoutes'])
     };
 </script>
 
