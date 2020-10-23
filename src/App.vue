@@ -33,6 +33,19 @@
         name: 'App',
         computed: {
             ...mapGetters(['getRoutes']),
+        },
+        created() {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    this.$store.dispatch('getUserLocation' , {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                    })
+                },
+                error => {
+                    console.log(error.message);
+                },
+            )
         }
     };
 </script>

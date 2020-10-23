@@ -18,6 +18,7 @@
 
 <script>
     import VWeatherCard from "./../components/VWeatherCard";
+    import {mapGetters} from "vuex"
     export default {
         name: "VWeatherBody",
         data() {
@@ -27,6 +28,18 @@
                 rules: [
                     v => !!v || 'City is required',
                 ]
+            }
+        },
+        computed: {
+            ...mapGetters(['getRoutes', 'getUserCity']),
+            userLocation() {
+                return this.getUserCity
+            }
+        },
+        watch: {
+            userLocation(loc) {
+                this.city = loc;
+                this.searchCity();
             }
         },
         components: {
@@ -43,6 +56,9 @@
                 }
             },
             pinCity() {
+                if (this.getRoutes.includes(this.city)) {
+                    return
+                }
                 this.$store.commit('addRoute', {
                     route: this.city
                 });

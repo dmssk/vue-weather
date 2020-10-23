@@ -1,28 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import fetchCity from "./modules/fetchCity";
+import getUserLocation from "./modules/getUserLocation";
 
 Vue.use(Vuex)
 
 let ID = 0;
-const apiKey = '911e2e8e5f29e41f5b9b1aed0aa2b816';
+
 
 export default new Vuex.Store({
     state: {
         routes: [],
         forecasts: [],
-        cityNotFound: false
-    },
-    actions: {
-        async fetchCity({commit}, city = 'Zhytomyr') {
-            const res = await fetch(
-              `http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`
-            );
-            const forecast = await res.json();
-
-            if(forecast.cod === '404') {
-                commit('cityNotFound')
-            } else {
-                commit('updateForecasts', forecast)
+        cityNotFound: false,
+        userLocation: {
+            address: {
+                city: 'Default'
             }
         }
     },
@@ -33,6 +26,9 @@ export default new Vuex.Store({
         },
         cityNotFound(state) {
             state.cityNotFound = true;
+        },
+        addUserLocation(state, coords) {
+            state.userLocation = coords;
         },
         addRoute(state, payload) {
             const {route} = payload;
@@ -52,7 +48,14 @@ export default new Vuex.Store({
         },
         cityNotFound(state) {
             return state.cityNotFound
+        },
+        getUserCity(state) {
+            return state.userLocation.address.city
         }
+    },
+    modules: {
+        fetchCity,
+        getUserLocation
     }
 
 

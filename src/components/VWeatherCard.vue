@@ -33,51 +33,81 @@
 				</v-row>
 			</v-card-text>
 
-			<v-list-item>
-				<v-list-item-icon>
-					<v-icon
-							:title="getCurrentCityInfo.list[0].wind.deg + ' degree'"
-							:style="`transform: rotate(${getCurrentCityInfo.list[0].wind.deg}deg)`"
-					>mdi-send
-					</v-icon>
-				</v-list-item-icon>
+			<VCardListItem
+				:icon="{
+					name: 'mdi-send',
+					title: getCurrentCityInfo.list[0].wind.deg + ' degree',
+					style: `transform: rotate(${getCurrentCityInfo.list[0].wind.deg}deg)`
+				}"
+				:title="getCurrentCityInfo.list[0].wind.speed + ' km/h'"
+			/>
 
-				<v-list-item-subtitle>{{getCurrentCityInfo.list[0].wind.speed}} km/h</v-list-item-subtitle>
-			</v-list-item>
+			<VCardListItem
+				:icon="{
+					name: 'mdi-cloud-download',
+				}"
+				:title="getCurrentCityInfo.list[0].main.humidity + ' %'"
+			/>
+			<VCardListItem
+				:icon="{
+					name: 'mdi-cloud',
+				}"
+				:title="getCurrentCityInfo.list[0].clouds.all + ' %'"
+			/>
+			<VCardListItem
+				:icon="{
+					name: 'mdi-arrow-collapse-all',
+				}"
+				:title="getCurrentCityInfo.list[0].main.pressure + ''"
+			/>
 
-			<v-list-item>
-				<v-list-item-icon>
-					<v-icon>mdi-cloud-download</v-icon>
-				</v-list-item-icon>
-				<v-list-item-subtitle>{{getCurrentCityInfo.list[0].main.humidity}}%</v-list-item-subtitle>
-			</v-list-item>
-
-			<v-list-item>
-				<v-list-item-icon>
-					<v-icon>mdi-cloud</v-icon>
-				</v-list-item-icon>
-				<v-list-item-subtitle>{{getCurrentCityInfo.list[0].clouds.all}}%</v-list-item-subtitle>
-			</v-list-item>
-
-			<v-list class="transparent">
-				<v-list-item
+			<v-list>
+				<v-list-group
 						v-for="item in getDailyForecast"
-						:key="item.dt"
+						:key="item.id"
+						no-action
 				>
-					<v-list-item-title>{{ formatTime(item.dt).dayName }}</v-list-item-title>
+					<template v-slot:activator>
+						<v-list-item-content>
+							<v-list-item-title v-text="formatTime(item[0].dt).dayName"></v-list-item-title>
+						</v-list-item-content>
+					</template>
 
-					<v-list-item-icon>
-						<img
-								:src="`http://openweathermap.org/img/wn/${item.weather[0].icon}.png`"
-								:alt="item.weather[0].main"
-								:title="item.weather[0].main"
-						>
-					</v-list-item-icon>
+					<v-list>
+					<v-list-item
+						v-for="child in item"
+						:key="child.id"
+						class="justify-space-between"
+					>
+						<span>{{ formatTime(child.dt).hours }}</span>
 
-					<v-list-item-subtitle class="text-right">
-						{{ item.temp }}
-					</v-list-item-subtitle>
-				</v-list-item>
+						<v-list-item-icon>
+							<img
+								:src="`http://openweathermap.org/img/wn/${child.weather[0].icon}.png`"
+								:alt="child.weather[0].main"
+								:title="child.weather[0].main"
+							>
+						</v-list-item-icon>
+
+						<div class="d-flex">
+							<v-icon>mdi-cloud-download</v-icon>
+							<span class="ml-3">{{child.main.humidity}}%</span>
+						</div>
+						<div class="d-flex">
+							<v-icon
+								:title="child.wind.deg + ' degree'"
+								:style="`transform: rotate(${child.wind.deg}deg)`"
+							>mdi-send
+							</v-icon>
+							<span class="ml-3">{{child.wind.speed}} km/h</span>
+						</div>
+
+						<span class="text-right">
+							{{ child.main.temp_min.toFixed(0) }}&deg;
+						</span>
+					</v-list-item>
+					</v-list>
+				</v-list-group>
 			</v-list>
 
 		</v-card>
@@ -92,12 +122,17 @@
 
 <script>
     import {mapGetters} from 'vuex'
+	import VCardListItem from "./VCardListItem";
 
     export default {
+		components: {
+			VCardListItem
+		},
         computed: {
             ...mapGetters(['getForecasts', 'cityNotFound']),
             isPinned() {
                 if(!this.$route.params.city) return false;
+
                 let cities = [];
                 this.getForecasts.forEach(f => cities.push(f.city.name));
                 cities = cities.map(c => c.toLowerCase());
@@ -114,7 +149,7 @@
                 }
             },
             getDailyForecast() {
-                return this.getCurrentCityInfo.list.filter(f => f.dt_txt.includes('12:00:00'))
+                return this.split(this.getCurrentCityInfo.list, 8)
             },
             getCurrentCityName() {
                 return this.getCurrentCityInfo.city.name
@@ -126,8 +161,17 @@
                 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
                 return {
                     dayName: days[date.getDay()],
+                    hours: date.getHours() + ':00',
                 }
             },
+			split(array, n) {
+				let [...arr] = array;
+				var res = [];
+				while (arr.length) {
+					res.push(arr.splice(0, n));
+				}
+				return res;
+			}
         }
     }
 </script>
