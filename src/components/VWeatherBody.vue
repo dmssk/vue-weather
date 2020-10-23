@@ -47,7 +47,7 @@
         },
         methods: {
             validate () {
-                this.$refs.form.validate()
+                this.$refs.form.validate();
             },
             searchCity() {
                 this.validate();
@@ -62,7 +62,7 @@
                 this.$store.commit('addRoute', {
                     route: this.getForecasts[this.getForecasts.length - 1].city.name
                 });
-                this.$router.addRoutes([{name: this.city, path: '/' + this.city}])
+                this.$router.addRoutes([{name: this.city, path: '/' + this.city}]);
             }
         }
     }

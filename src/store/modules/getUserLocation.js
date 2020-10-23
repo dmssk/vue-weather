@@ -1,4 +1,4 @@
-const apiKey = 'pk.9d71e74cd4bca102120590fbb46936aa';
+const apiKey = process.env.VUE_APP_LOCATION_API;
 
 export default {
     actions: {

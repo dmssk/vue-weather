@@ -1,4 +1,4 @@
-const apiKey = '911e2e8e5f29e41f5b9b1aed0aa2b816';
+const apiKey = process.env.VUE_APP_WEATHER_API;
 
 export default {
     actions: {
@@ -9,9 +9,9 @@ export default {
             const forecast = await res.json();
 
             if(forecast.cod === '404') {
-                commit('cityNotFound')
+                commit('cityNotFound');
             } else {
-                commit('updateForecasts', forecast)
+                commit('updateForecasts', forecast);
             }
         }
     },

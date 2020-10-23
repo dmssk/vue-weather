@@ -1,12 +1,11 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 import fetchCity from "./modules/fetchCity";
 import getUserLocation from "./modules/getUserLocation";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 let ID = 0;
-
 
 export default new Vuex.Store({
     state: {
@@ -21,7 +20,7 @@ export default new Vuex.Store({
     },
     mutations: {
         updateForecasts(state, forecast) {
-            state.forecasts.push(forecast)
+            state.forecasts.push(forecast);
             state.cityNotFound = false;
         },
         cityNotFound(state) {
