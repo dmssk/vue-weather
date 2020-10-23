@@ -31,7 +31,7 @@
             }
         },
         computed: {
-            ...mapGetters(['getRoutes', 'getUserCity']),
+            ...mapGetters(['getRoutes', 'getUserCity', 'getForecasts']),
             userLocation() {
                 return this.getUserCity
             }
@@ -60,7 +60,7 @@
                     return
                 }
                 this.$store.commit('addRoute', {
-                    route: this.city
+                    route: this.getForecasts[this.getForecasts.length - 1].city.name
                 });
                 this.$router.addRoutes([{name: this.city, path: '/' + this.city}])
             }
