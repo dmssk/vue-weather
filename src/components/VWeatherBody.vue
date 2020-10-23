@@ -56,7 +56,7 @@
                 }
             },
             pinCity() {
-                if (this.getRoutes.includes(this.city)) {
+                if (this.getRoutes.filter(r => r.name === this.getForecasts[this.getForecasts.length - 1].city.name)[0]) {
                     return
                 }
                 this.$store.commit('addRoute', {
